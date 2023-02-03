@@ -45,6 +45,15 @@ int main(){
     
 
     case 2:
+        for (j = 0; j < HAMMER_ROUND; ++j) {
+            asm volatile(
+                "str %2, [%0]\n\t"
+                "str %2, [%1]\n\t"
+                "dc zva, %0\n\t"
+                "dc zva, %1\n\t"
+                ::"r" (addr1), "r" (addr2), "r" (temp)
+          );
+        }
         break;
 
     case 3:
