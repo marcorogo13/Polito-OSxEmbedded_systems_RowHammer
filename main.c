@@ -15,6 +15,7 @@
 #define CYCLE_N 50000
 #define CYCLE_X_REFRESH 50000
 #define ROUND 1000
+#define HAMMER_ROUND 200        // the number of cpu cycle between 2 subsequent memory refresh
 
 int memory_block[MEM_SIZE] = {0};
 
@@ -50,6 +51,7 @@ int main(){
     /*utility variables*/
     int selection = 1;
     int number_of_cycles = 1;
+    int cycles;
     int found_flag = 0;
     unsigned long temp = 0xFFFFFFFF; 
     
@@ -83,17 +85,25 @@ int main(){
 
     /*start of actual hammer program*/
     
-    printf("Select what you want to try: \n1)ZVA \n2)DC CVAC \n3)DC CIVAC \n");
-    scanf("%d", &selection); 
+    do{
+        printf("Select what you want to try: \n1)ZVA \n2)DC CVAC \n3)DC CIVAC \n");
+        scanf("%d", &selection); 
+        if(selection != 1 || selection != 2 || selection != 3){
+            printf("Wrong input, Please select a correct value\n");
+        }        
+    } while(selection != 1 || selection != 2 || selection != 3);
 
     printf("Enter number of refresh cycles you want to run the test for:\n");
     scanf("%d", &number_of_cycles); 
     
+    
+    //The number of effective cycle for the program to run, e.g. how many refresh cycles should we test
+    cycles = HAMMER_ROUND * number_of_cycles;
 
     switch (selection)
     {
     case 1:
-        for (j = 0; j < HAMMER_ROUND; ++j) {
+        for (j = 0; j < cycles; ++j) {
             asm volatile(
                 "str %2, [%0]\n\t"
                 "str %2, [%1]\n\t"
@@ -106,7 +116,7 @@ int main(){
     
 
     case 2:
-        for (j = 0; j < HAMMER_ROUND; ++j) {
+        for (j = 0; j < cycles; ++j) {
             asm volatile(
                 "str %2, [%0]\n\t"
                 "str %2, [%1]\n\t"
@@ -118,7 +128,7 @@ int main(){
         break;
 
     case 3:
-        for (j = 0; j < HAMMER_ROUND; ++j) {
+        for (j = 0; j < cycles; ++j) {
             asm volatile(
                 "str %2, [%0]\n\t"
                 "str %2, [%1]\n\t"
