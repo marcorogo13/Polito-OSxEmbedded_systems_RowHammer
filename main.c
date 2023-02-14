@@ -11,11 +11,11 @@
 
 
 
-#define MEM_SIZE 10000
+
 #define ROUND 140000
 #define HAMMER_ROUND 140000        // the number of cpu cycle between 2 subsequent memory refresh
 
-int memory_block[MEM_SIZE] = {1};
+//int memory_block[MEM_SIZE] = {1};
 
 
 int main(){
@@ -32,7 +32,12 @@ int main(){
     int found_flag = 0;
     int j;
     unsigned long temporary = 0xFFFFFFFF;
+    
+    int mapping_size = 0x1000;
+    void *mapped = mmap(NULL, mapping_size, PROT_READ | PROT_WRITE,
+                      MAP_PRIVATE | MAP_ANON, -1, 0);
 
+    
     /*CACHE/NON CACHE timing tests*/
     printf("Timing of repeated access to same memory location using the cache:\n");
 
