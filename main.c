@@ -1,5 +1,5 @@
 
-
+#include <sys/mman.h>
 #include <stdio.h>
 #include <string.h>
 #include <unistd.h>
@@ -19,11 +19,6 @@
 
 
 int main(){
-    /*setting the address to hammer*/
-
-    void* addr1 = (void*) (memory_block+MEM_SIZE/2);
-    void *addr2 = (void*) (memory_block+MEM_SIZE/3);
-
 
     /*utility variables*/
     int selection = 1;
@@ -34,10 +29,13 @@ int main(){
     unsigned long temporary = 0xFFFFFFFF;
     
     int mapping_size = 0x1000;
-    void *mapped = mmap(NULL, mapping_size, PROT_READ | PROT_WRITE,
+    void *memory_block = mmap(NULL, mapping_size, PROT_READ | PROT_WRITE,
                       MAP_PRIVATE | MAP_ANON, -1, 0);
 
-    
+    /*setting the address to hammer*/
+    void* addr1 = (void*) (memory_block+mapping_size/2);
+    void *addr2 = (void*) (memory_block+mapping_size/3);
+
     /*CACHE/NON CACHE timing tests*/
     printf("Timing of repeated access to same memory location using the cache:\n");
 
