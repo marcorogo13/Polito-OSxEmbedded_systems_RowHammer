@@ -29,8 +29,13 @@ int main(){
     unsigned long temporary = 0xFFFFFFFF;
     
     int mapping_size = 0x1000;
-    void *memory_block = mmap(NULL, mapping_size, PROT_READ | PROT_WRITE,
-                      MAP_PRIVATE | MAP_ANON, -1, 0);
+    void *mapped = mmap(NULL, mapping_size, PROT_READ | PROT_WRITE,
+                    MAP_PRIVATE | MAP_ANON, -1, 0);
+
+    if (mapped == MAP_FAILED){
+        printf("failed to allocate memory!\n");
+        exit (1);
+    }
 
     /*setting the address to hammer*/
     void* addr1 = (void*) (memory_block+mapping_size/2);
@@ -127,13 +132,13 @@ int main(){
     
     /*test to see if there are any flipped bits*/
 
-    for (int i = 1; i<MEM_SIZE; i++){
-        if (memory_block[i] == 1){
+    for (int i = 0; i < mapping_size; i++){
+        if(( *((int8_t*)mapped + i) == 1){
             printf("Found a bit flip in position : %d\n", i);
-            found_flag ++;
+            found_flag ++;    
         }
-
-    }
+        printf("%d : %d\n", i, *((int8_t*)mapped + i));
+    }    
 
     if (!found_flag){
         printf("No bit-flip found :( \n");
