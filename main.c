@@ -15,7 +15,7 @@
 #define ROUND 140000
 #define HAMMER_ROUND 140000        // the number of cpu cycle between 2 subsequent memory refresh
 
-//int memory_block[MEM_SIZE] = {1};
+int mapping_size = 0x1000;
 
 
 int main(){
@@ -28,7 +28,6 @@ int main(){
     int j;
     unsigned long temporary = 0xFFFFFFFF;
     
-    int mapping_size = 0x1000;
     void *mapped = mmap(NULL, mapping_size, PROT_READ | PROT_WRITE,
                     MAP_PRIVATE | MAP_ANON, -1, 0);
 
@@ -38,8 +37,8 @@ int main(){
     }
 
     /*setting the address to hammer*/
-    void* addr1 = (void*) (memory_block+mapping_size/2);
-    void *addr2 = (void*) (memory_block+mapping_size/3);
+    void* addr1 = (void*) (mapped+mapping_size/2);
+    void *addr2 = (void*) (mapped+mapping_size/3);
 
     /*CACHE/NON CACHE timing tests*/
     printf("Timing of repeated access to same memory location using the cache:\n");
@@ -137,7 +136,6 @@ int main(){
             printf("Found a bit flip in position : %d\n", i);
             found_flag ++;    
         }
-        printf("%d : %d\n", i, *((int8_t*)mapped + i));
     }    
 
     if (!found_flag){
