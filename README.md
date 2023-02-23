@@ -11,4 +11,4 @@ This work is licensed under a
 
 
 # Polito-OSxEmbedded_systems_RowHammer
-Simple Rowhammer demo for raspberry pi4 for the Polito Operating systems for embedded system courd
+This simple demo of rowhammer attack for the raspberry pi4 was originally developed as part of an assignment of the Operating systems for embedded systems course delivered at Politecnico di Torino by Prof. Stefano Di Carlo
