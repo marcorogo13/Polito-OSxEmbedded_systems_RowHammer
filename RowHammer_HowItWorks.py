@@ -14,14 +14,12 @@ values = [[0 for j in range(NUM)] for i in range(NUM)]
 def flashing(button, duration=100, num_flashes=1):
     def flash1(count):
         if count < num_flashes:
-            # Change the color of the button for the specified duration
             if button.cget('bg') == 'orange':
                 button.config(bg='white')
             else:
                 button.config(bg='orange')
             button.after(duration, flash1, count + 1)
         else:
-            # Reset the button color to white when flashing is complete
             button.config(bg='white')
 
     flash1(0)
@@ -29,14 +27,12 @@ def flashing(button, duration=100, num_flashes=1):
 def flash_button(button, duration=300, num_flashes=10):
     def flash(count):
         if count < num_flashes:
-            # Change the color of the button for the specified duration
             if button.cget('bg') == 'orange':
                 button.config(bg='white')
             else:
                 button.config(bg='orange')
             button.after(duration, flash, count+1)
         else:
-            # Reset the button color to white when flashing is complete
             button.config(bg='orange')
     flash(0)
 
